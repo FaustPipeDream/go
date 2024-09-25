@@ -97,6 +97,7 @@ type clientHelloMsg struct {
 	pskBinders                       [][]byte
 	quicTransportParameters          []byte
 	encryptedClientHello             []byte
+	customClientHelloExtends 		 []CustomClientHelloExtension
 	// extensions are only populated on the server-side of a handshake
 	extensions []uint16
 }
@@ -276,6 +277,16 @@ func (m *clientHelloMsg) marshalMsg(echInner bool) ([]byte, error) {
 			})
 		}
 	}
+
+	if len(m.customClientHelloExtends) > 0{
+		for _,customClientHelloExtend := range m.customClientHelloExtends{
+			exts.AddUint16(customClientHelloExtend.extensionType)
+			exts.AddUint16LengthPrefixed(func(exts *cryptobyte.Builder){
+				exts.AddBytes(customClientHelloExtend.data)
+			})
+		}
+	}
+
 	if len(m.keyShares) > 0 {
 		// RFC 8446, Section 4.2.8
 		if echInner {

@@ -834,6 +834,9 @@ type Config struct {
 	// autoSessionTicketKeys is like sessionTicketKeys but is owned by the
 	// auto-rotation logic. See Config.ticketKeys.
 	autoSessionTicketKeys []ticketKey
+
+	//新增对自定义ClientHello报文的支持
+	CustomClientHelloExtensions []CustomClientHelloExtension
 }
 
 const (
@@ -914,6 +917,7 @@ func (c *Config) Clone() *Config {
 		EncryptedClientHelloRejectionVerify: c.EncryptedClientHelloRejectionVerify,
 		sessionTicketKeys:                   c.sessionTicketKeys,
 		autoSessionTicketKeys:               c.autoSessionTicketKeys,
+		CustomClientHelloExtensions:         c.CustomClientHelloExtensions,
 	}
 }
 
@@ -1645,4 +1649,16 @@ func (e *CertificateVerificationError) Error() string {
 
 func (e *CertificateVerificationError) Unwrap() error {
 	return e.Err
+}
+
+type CustomClientHelloExtension struct{
+	extensionType uint16
+	data 		[]byte
+}
+
+func NewCustomClientHelloExtension(customType uint16,data []byte) *CustomClientHelloExtension {
+	return &CustomClientHelloExtension{
+		extensionType : customType,
+		data: data,
+	}
 }

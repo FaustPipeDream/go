@@ -188,6 +188,10 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, *keySharePrivateKeys, *echCon
 		}
 	}
 
+	if len(config.CustomClientHelloExtensions) > 0{
+		hello.customClientHelloExtends = config.CustomClientHelloExtensions
+	}
+
 	if c.quic != nil {
 		p, err := c.quicGetTransportParameters()
 		if err != nil {
