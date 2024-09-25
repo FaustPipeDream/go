@@ -40,3 +40,11 @@ places to ask questions about the Go language.
 
 [rf]: https://reneefrench.blogspot.com/
 [cc4-by]: https://creativecommons.org/licenses/by/4.0/
+
+# 使用vscode编译golang源码
+### 1.安装golang开发环境
+### 2.下载golang源码
+### 3.运行src目录下的mack.bash，此时golang源码将安装于src目录同级下的bin目录
+### 4.修改vscode插件的配置，新增 "go.goroot": "/data/code/go/src/go" 指向golang源码路径，此处以该路径/data/code/go/src/go为例
+### 5.重启vscode，此时源码中提示错误的internal调用会消失，单元测试也可以正常运行
+### 6.需要使用修改的golang源码同理，编译后将go env下的go root指向编译后的位置即可以使用
